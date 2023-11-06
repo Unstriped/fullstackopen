@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const helper = require('./test_helper');
 const app = require('../app');
 const api = supertest(app);
+const jwt = require('jsonwebtoken');
 
 const Note = require('../models/note');
 
@@ -69,9 +70,14 @@ describe('addition of a new note', () => {
       userId: usersAtStart[0].id,
     };
 
+    const token = jwt.sign(usersAtStart[0], process.env.SECRET, {
+      expiresIn: 60 * 60, // expires in an hour
+    });
+
     await api
       .post('/api/notes')
       .send(newNote)
+      .set('Authorization', `bearer ${token}`)
       .expect(201)
       .expect('Content-Type', /application\/json/);
 
@@ -90,7 +96,15 @@ describe('addition of a new note', () => {
       userId: usersAtStart[0].id,
     };
 
-    await api.post('/api/notes').send(newNote).expect(400);
+    const token = jwt.sign(usersAtStart[0], process.env.SECRET, {
+      expiresIn: 60 * 60, // expires in an hour
+    });
+
+    await api
+      .post('/api/notes')
+      .send(newNote)
+      .set('Authorization', `bearer ${token}`)
+      .expect(400);
 
     const notesAtEnd = await helper.notesInDb();
     expect(notesAtEnd).toHaveLength(helper.initialNotes.length);

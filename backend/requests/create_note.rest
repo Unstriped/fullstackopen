@@ -1,8 +1,9 @@
 POST http://localhost:3001/api/notes
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1NDk1OGI1ZmQxOWY4YTkxYzg2NmUzNiIsImlhdCI6MTY5OTMwNzAzOX0.67TlIL2Mz6LNmDu2DevjTRVUhRXUtfKFOo_WMPcOUi4
 
 {
-    "content": "Postman sucks",
-    "important": true,
+    "content": "Postman sucks!!",
+    "important": false,
     "userId": "65493e51e1502f13a9a505e7"
 }
