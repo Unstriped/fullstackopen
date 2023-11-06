@@ -3,5 +3,6 @@ content-type: application/json
 
 {
     "content": "Postman sucks",
-    "important": true
+    "important": true,
+    "userId": "65493e51e1502f13a9a505e7"
 }
