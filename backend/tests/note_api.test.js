@@ -61,9 +61,12 @@ describe('viewing a specific note', () => {
 });
 describe('addition of a new note', () => {
   test('a valid note can be added', async () => {
+    const usersAtStart = await helper.usersInDb();
+
     const newNote = {
       content: 'async/await simplifies making async calls',
       important: true,
+      userId: usersAtStart[0].id,
     };
 
     await api
@@ -80,8 +83,11 @@ describe('addition of a new note', () => {
   });
 
   test('without content is not added', async () => {
+    const usersAtStart = await helper.usersInDb();
+
     const newNote = {
       important: true,
+      userId: usersAtStart[0].id,
     };
 
     await api.post('/api/notes').send(newNote).expect(400);
