@@ -2,23 +2,8 @@ import { useState, useEffect } from 'react';
 import Note from './components/Note';
 import Notification from './components/Notification';
 import Login from './components/Login';
+import Footer from './components/Footer';
 import noteService from './services/notes';
-
-const Footer = () => {
-  const footerStyle = {
-    color: 'green',
-    fontStyle: 'italic',
-    fontSize: 16,
-  };
-  return (
-    <div style={footerStyle}>
-      <br />
-      <em>
-        Note app, Department of Computer Science, University of Helsinki 2023
-      </em>
-    </div>
-  );
-};
 
 const App = () => {
   const [notes, setNotes] = useState(null);
@@ -103,7 +88,16 @@ const App = () => {
       {!user && <Login setUser={setUser} setErrorMessage={setErrorMessage} />}
       {user && (
         <div>
-          <p>{user.name} logged in</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <p>{user.name} logged in</p>
+            <button
+              onClick={() => {
+                window.localStorage.clear();
+              }}
+            >
+              Log Out
+            </button>
+          </div>
           {noteForm()}
         </div>
       )}

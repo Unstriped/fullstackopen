@@ -22,7 +22,6 @@ const create = async (newObject) => {
     },
     body: JSON.stringify(newObject),
   });
-  console.log(response);
   const result = response.json();
 
   return result;
