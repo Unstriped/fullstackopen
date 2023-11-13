@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
-import Note from "./components/Note";
-import Notification from "./components/Notification";
-import noteService from "./services/notes";
+import { useState, useEffect } from 'react';
+import Note from './components/Note';
+import Notification from './components/Notification';
+import Login from './components/Login';
+import noteService from './services/notes';
 
 const Footer = () => {
   const footerStyle = {
-    color: "green",
-    fontStyle: "italic",
+    color: 'green',
+    fontStyle: 'italic',
     fontSize: 16,
   };
   return (
@@ -21,9 +22,10 @@ const Footer = () => {
 
 const App = () => {
   const [notes, setNotes] = useState(null);
-  const [newNote, setNewNote] = useState("");
+  const [newNote, setNewNote] = useState('');
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     function fetchData() {
@@ -48,7 +50,7 @@ const App = () => {
 
     noteService.create(noteObject).then((response) => {
       setNotes(notes.concat(response));
-      setNewNote("");
+      setNewNote('');
     });
   };
 
@@ -82,15 +84,31 @@ const App = () => {
     return null;
   }
 
+  const noteForm = () => (
+    <form onSubmit={addNote}>
+      <input
+        value={newNote}
+        onChange={handleNoteChange}
+        placeholder="a new note..."
+      />
+      <button type="submit">save</button>
+    </form>
+  );
+
   return (
     <div>
-      <h1>Notes</h1>
+      <h1>Notes App</h1>
       <Notification message={errorMessage} />
-      <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          Show {showAll ? "Important" : "All"}
-        </button>
-      </div>
+
+      {!user && <Login setUser={setUser} setErrorMessage={setErrorMessage} />}
+      {user && (
+        <div>
+          <p>{user.name} logged in</p>
+          {noteForm()}
+        </div>
+      )}
+
+      <h2>Notes</h2>
       <ul>
         {notesToShow.map((note) => (
           <Note
@@ -100,14 +118,13 @@ const App = () => {
           />
         ))}
       </ul>
-      <form onSubmit={addNote}>
-        <input
-          value={newNote}
-          onChange={handleNoteChange}
-          placeholder="a new note..."
-        />
-        <button type="submit">save</button>
-      </form>
+
+      <div>
+        <button onClick={() => setShowAll(!showAll)}>
+          Show {showAll ? 'Important' : 'All'}
+        </button>
+      </div>
+
       <Footer />
     </div>
   );

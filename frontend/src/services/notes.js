@@ -1,4 +1,10 @@
-const baseUrl = "/api/notes";
+const baseUrl = '/api/notes';
+
+let token = null;
+
+const setToken = (newToken) => {
+  token = `bearer ${newToken}`;
+};
 
 const getAll = async () => {
   const response = await fetch(baseUrl);
@@ -8,13 +14,15 @@ const getAll = async () => {
 
 const create = async (newObject) => {
   const response = await fetch(baseUrl, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: token,
     },
     body: JSON.stringify(newObject),
   });
+  console.log(response);
   const result = response.json();
 
   return result;
@@ -22,10 +30,10 @@ const create = async (newObject) => {
 
 const update = async (id, newObject) => {
   const response = await fetch(`${baseUrl}/${id}`, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(newObject),
   });
@@ -33,4 +41,4 @@ const update = async (id, newObject) => {
   return result;
 };
 
-export default { getAll, create, update };
+export default { getAll, create, update, setToken };
