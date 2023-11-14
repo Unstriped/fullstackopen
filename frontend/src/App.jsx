@@ -9,7 +9,6 @@ import noteService from './services/notes';
 
 const App = () => {
   const [notes, setNotes] = useState(null);
-  const [newNote, setNewNote] = useState('');
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [user, setUser] = useState(null);
@@ -27,22 +26,10 @@ const App = () => {
     ? notes
     : notes.filter((note) => note.important === true);
 
-  const addNote = async (event) => {
-    event.preventDefault();
-    const noteObject = {
-      content: newNote,
-      important: Math.random() < 0.5,
-      id: notes.length + 1,
-    };
-
+  const handleNoteChange = (noteObject) => {
     noteService.create(noteObject).then((response) => {
       setNotes(notes.concat(response));
-      setNewNote('');
     });
-  };
-
-  const handleNoteChange = (event) => {
-    setNewNote(event.target.value);
   };
 
   const toggleImportance = async (id) => {
@@ -95,11 +82,7 @@ const App = () => {
           </div>
           {
             <Togglable buttonLabel="New Note">
-              <NoteForm
-                onSubmit={addNote}
-                value={newNote}
-                handleChange={handleNoteChange}
-              />
+              <NoteForm createNote={handleNoteChange} />
             </Togglable>
           }
         </div>
