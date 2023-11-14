@@ -3,6 +3,8 @@ import Note from './components/Note';
 import Notification from './components/Notification';
 import Login from './components/Login';
 import Footer from './components/Footer';
+import Togglable from './components/Togglable';
+import NoteForm from './components/NoteForm';
 import noteService from './services/notes';
 
 const App = () => {
@@ -69,23 +71,16 @@ const App = () => {
     return null;
   }
 
-  const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input
-        value={newNote}
-        onChange={handleNoteChange}
-        placeholder="a new note..."
-      />
-      <button type="submit">save</button>
-    </form>
-  );
-
   return (
     <div>
       <h1>Notes App</h1>
       <Notification message={errorMessage} />
 
-      {!user && <Login setUser={setUser} setErrorMessage={setErrorMessage} />}
+      {!user && (
+        <Togglable buttonLabel="Login">
+          <Login setUser={setUser} setErrorMessage={setErrorMessage} />
+        </Togglable>
+      )}
       {user && (
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -98,7 +93,15 @@ const App = () => {
               Log Out
             </button>
           </div>
-          {noteForm()}
+          {
+            <Togglable buttonLabel="New Note">
+              <NoteForm
+                onSubmit={addNote}
+                value={newNote}
+                handleChange={handleNoteChange}
+              />
+            </Togglable>
+          }
         </div>
       )}
 
