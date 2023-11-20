@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Footer from './components/Footer';
 import Togglable from './components/Togglable';
 import NoteForm from './components/NoteForm';
+import Logout from './components/Logout';
 import noteService from './services/notes';
 
 const App = () => {
@@ -74,13 +75,7 @@ const App = () => {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <p>{user.name} logged in</p>
-            <button
-              onClick={() => {
-                window.localStorage.clear();
-              }}
-            >
-              Log Out
-            </button>
+            <Logout setUser={setUser} />
           </div>
           {
             <Togglable buttonLabel="New Note" ref={noteFormRef}>
