@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import loginService from '../services/login';
 import noteService from '../services/notes';
+import PropTypes from 'prop-types';
 
 const Login = ({ setUser, setErrorMessage }) => {
   const [username, setUsername] = useState('');
@@ -47,6 +48,7 @@ const Login = ({ setUser, setErrorMessage }) => {
             type="text"
             value={username}
             name="Username"
+            id="username"
             placeholder="username"
             onChange={({ target }) => setUsername(target.value)}
           />
@@ -56,14 +58,22 @@ const Login = ({ setUser, setErrorMessage }) => {
             type="password"
             value={password}
             name="Password"
+            id="password"
             placeholder="password"
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit">Login</button>
+        <button id="login-button" type="submit">
+          Log in
+        </button>
       </form>
     </>
   );
+};
+
+Login.propTypes = {
+  setUser: PropTypes.func.isRequired,
+  setErrorMessage: PropTypes.func.isRequired,
 };
 
 export default Login;

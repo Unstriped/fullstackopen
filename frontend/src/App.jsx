@@ -67,7 +67,7 @@ const App = () => {
       <Notification message={errorMessage} />
 
       {!user && (
-        <Togglable buttonLabel="Login">
+        <Togglable buttonLabel="Log in">
           <Login setUser={setUser} setErrorMessage={setErrorMessage} />
         </Togglable>
       )}
